@@ -3,10 +3,11 @@ import json
 import requests
 import os
 from github import Github, Repository, Issue, AuthenticatedUser
+from github.GithubObject import NotSet
 
 
 #create the mcp server using the fastmcp library
-mcp = FastMCP(
+mcp_management = FastMCP(
     name="mcp-github",
     instructions="""
         This server is to help you perform actions on github through our LLM
@@ -25,12 +26,10 @@ user = g.get_user()
 
 #repository management (creating and deleting repos)
 #first tool is creating a repo
-@mcp.tool
+@mcp_management.tool
 def create_github_repo(
     name: str,
-    description: str = "",
-    private: bool = False,
-    auto_init: bool = True,
+    private: bool = NotSet
 ) -> str:
     """
     Create a GitHub repository with the given parameters.
@@ -38,20 +37,12 @@ def create_github_repo(
     """
     repo = user.create_repo(
         name=name,
-        description=description or None,
-        private=private,
-        auto_init=auto_init,
-        has_issues=True,
-        has_wiki=True,
-        allow_squash_merge=True,
-        allow_merge_commit=True,
-        allow_rebase_merge=True,
-        delete_branch_on_merge=True
+        private=private
     )
     return f"✅ Repository '{repo.name}' created successfully at {repo.html_url}"
 
 #second tool is deleting a repo
-@mcp.tool
+@mcp_management.tool
 def delete_github_repo(repo_name: str) -> None:
     """
     Deletes the repository owned by user.
@@ -65,19 +56,18 @@ def delete_github_repo(repo_name: str) -> None:
 
     repo = user.get_repo(repo_name)  
     
-    confirm = input(f"⚠️ Are you sure you want to delete '{repo_name}'? This cannot be undone! (yes/no): ").strip().lower()
-    if confirm != "yes":
-        print("Deletion cancelled.")
-        return
+    #confirm = input(f"⚠️ Are you sure you want to delete '{repo_name}'? This cannot be undone! (yes/no): ").strip().lower()
+    #if confirm != "yes":
+    #    print("Deletion cancelled.")
     
     repo.delete()  # This calls the GitHub DELETE /repos/{owner}/{repo} API
     
-    print(f"✅ Repository '{repo_name}' deleted successfully.")
+    return f"✅ Repository '{repo_name}' deleted successfully."
 
 
 #third toold is listing all the current repos
-@mcp.tool
-def list_github_repos(repo_name: str) -> list[str]:
+@mcp_management.tool
+def list_github_repos() -> list[str]:
     """
     Returns a list of repo names for the user.
     
@@ -88,12 +78,5 @@ def list_github_repos(repo_name: str) -> list[str]:
 
 
 
-
-    
-    
-
-
-    
-
 if __name__ == "__main__":
-    mcp.run()
+    mcp_management.run(transport="http")
