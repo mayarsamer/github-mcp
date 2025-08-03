@@ -27,7 +27,7 @@ def create_issue(
     repo_name: str,       
     issue_title: str,
     issue_body: str = NotSet,
-    label_name: Optional[str] = NotSet,
+    label_name: Optional[list[str]] = NotSet,
     assignee_username: Optional[list[str]] = NotSet
 ) -> str:
     """
@@ -37,9 +37,8 @@ def create_issue(
         repo_name (str): The name of the repo .
         issue_title (str): Title of the issue
         issue_body (str): Body content of the issue
-        label_name (Optional[str]): Name of the labels to assign
-        assignee_username (Optional[str]): GitHub username to assign the issue to
-        milestone_title (Optional[str]): Title of the milestone to associate
+        label_name Optional[list[str]]: Name of the labels to assign
+        assignee_username Optional[list[str]]): GitHub username to assign the issue to
 
     Returns:
         str: Summary string of the created issue (title and issue number)

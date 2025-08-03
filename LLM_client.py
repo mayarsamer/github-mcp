@@ -11,7 +11,7 @@ async def main():
     async with mcp_client:
         response = await gemini_client.aio.models.generate_content(
             model="gemini-2.5-flash",
-            contents="make another issue for the repo mayar-is-awesome called 'the webpage is messed up fix it' with label 'bug' and body 'hello are you there fix it nowww!'",
+            contents="close all issues in repo mayar-is-awesome",
             config=genai.types.GenerateContentConfig(
                 temperature=0,
                 tools=[mcp_client.session],  # Pass the FastMCP client session
