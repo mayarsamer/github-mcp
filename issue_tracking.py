@@ -26,10 +26,9 @@ user = g.get_user()
 def create_issue(
     repo_name: str,       
     issue_title: str,
-    issue_body: str = "",
-    label_name: Optional[str] = None,
-    assignee_username: Optional[str] = None,
-    milestone_title: Optional[str] = None
+    issue_body: str = NotSet,
+    label_name: Optional[str] = NotSet,
+    assignee_username: Optional[list[str]] = NotSet
 ) -> str:
     """
     Creates an issue in the specified repository.
@@ -38,29 +37,22 @@ def create_issue(
         repo_name (str): The name of the repo .
         issue_title (str): Title of the issue
         issue_body (str): Body content of the issue
-        label_name (Optional[str]): Name of the label to assign
+        label_name (Optional[str]): Name of the labels to assign
         assignee_username (Optional[str]): GitHub username to assign the issue to
         milestone_title (Optional[str]): Title of the milestone to associate
 
     Returns:
         str: Summary string of the created issue (title and issue number)
     """
-    repo = g.get_repo(repo_name)
+    repo = user.get_repo(repo_name)
 
-    labels = []
-    if label_name:
-        labels.append(repo.get_label(label_name))
 
-    milestone = None
-    if milestone_title:
-        milestone = repo.create_milestone(milestone_title)
 
     issue = repo.create_issue(
         title=issue_title,
         body=issue_body,
-        labels=labels,
-        assignee=assignee_username,
-        milestone=milestone
+        labels=label_name,
+        assignee=assignee_username
     )
 
     return f"Issue created: {issue.title} (#{issue.number})"
@@ -68,23 +60,34 @@ def create_issue(
 @mcp_issue_tracking.tool
 def get_issue_from_repo(repo_name: str, issue_number: int):
     """
-    Get a specific issue from a GitHub repository.
+        Retrieve detailed information about a specific issue from a GitHub repository.
 
-    Args:
-        repo_name (str): The name of the repo.
-        issue_number (int): The number of the issue to retrieve.
+        Args:
+            repo_name (str): The full name of the repository (e.g., "owner/repo").
+            issue_number (int): The number of the issue to retrieve.
 
-    Returns:
-        dict: A dictionary containing issue title and number.
-    """
+        Returns:
+            dict: A dictionary containing the following keys:
+                - title (str): The title of the issue.
+                - number (int): The issue number.
+                - state (str): The current state of the issue ("open" or "closed").
+                - labels (List[str]): A list of label names assigned to the issue.
+                - body (str): A preview of the issue body (first 200 characters).
+                - url (str): The URL to view the issue on GitHub.
+        """
 
-    repo = g.get_repo(repo_name)
+    repo = user.get_repo(repo_name)
     issue = repo.get_issue(number=issue_number)
-
+    
     return {
         "title": issue.title,
-        "number": issue.number
+        "number": issue.number,
+        "state": issue.state,
+        "labels": [label.name for label in issue.labels],
+        "body": issue.body[:200] + ("..." if issue.body and len(issue.body) > 200 else ""),
+        "url": issue.html_url
     }
+
 
 @mcp_issue_tracking.tool
 def close_issue(repo_name: str, issue_number: int):
@@ -99,7 +102,7 @@ def close_issue(repo_name: str, issue_number: int):
         dict: A confirmation message with the issue number and title.
     """
 
-    repo = g.get_repo(repo_name)
+    repo = user.get_repo(repo_name)
     issue = repo.get_issue(number=issue_number)
     
     issue.edit(state='closed')
@@ -122,7 +125,7 @@ def close_all_open_issues(repo_name: str):
         dict: A summary of how many issues were closed.
     """
 
-    repo = g.get_repo(repo_name)
+    repo = user.get_repo(repo_name)
 
     open_issues = repo.get_issues(state='open')
     closed_count = 0
