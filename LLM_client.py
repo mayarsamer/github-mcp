@@ -11,7 +11,7 @@ async def main():
     async with mcp_client:
         response = await gemini_client.aio.models.generate_content(
             model="gemini-2.5-flash",
-            contents="create a new pull request from head branch 'second-branch' to the base branhc 'third-barnch' on the repo github-mcp with tile 'can i join'",
+            contents="Calculate top contributors by commits, pull requests, and issues from start date 2025-08-03 and end data 2025-08-04 from repo github-mcp",
             config=genai.types.GenerateContentConfig(
                 temperature=0,
                 tools=[mcp_client.session],  # Pass the FastMCP client session

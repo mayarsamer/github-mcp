@@ -1,6 +1,4 @@
 from fastmcp import FastMCP
-import json
-import requests
 import os
 from github import Github, Repository, Issue, AuthenticatedUser
 from github.GithubObject import NotSet
