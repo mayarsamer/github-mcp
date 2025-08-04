@@ -6,7 +6,7 @@ from typing import Optional
 
 
 mcp_branch= FastMCP(
-    name="mcp-github",
+    name="mcp_branch_management",
     instructions="""
         This server is to help you perform actions on github 
     """,

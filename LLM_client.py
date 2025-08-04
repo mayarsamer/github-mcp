@@ -7,11 +7,11 @@ import os
 mcp_client = Client("http://0.0.0.0:8000/mcp/")
 gemini_client = genai.Client()
 
-async def main():    
+async def main(prompt: str):    
     async with mcp_client:
         response = await gemini_client.aio.models.generate_content(
             model="gemini-2.5-flash",
-            contents="Calculate top contributors by commits, pull requests, and issues from start date 2025-08-03 and end data 2025-08-04 from repo github-mcp",
+            contents=prompt,
             config=genai.types.GenerateContentConfig(
                 temperature=0,
                 tools=[mcp_client.session],  # Pass the FastMCP client session

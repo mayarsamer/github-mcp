@@ -6,7 +6,7 @@ from typing import Optional
 
 
 mcp_issue_tracking = FastMCP(
-    name="mcp-github",
+    name="IssueTracking",
     instructions="""
         This server is to help you perform actions on github 
     """,

@@ -5,7 +5,7 @@ from github.GithubObject import NotSet
 
 
 mcp_management = FastMCP(
-    name="mcp-github",
+    name="Repo_management",
     instructions="""
         This server is to help you perform actions on github 
     """,

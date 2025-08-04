@@ -6,7 +6,7 @@ from typing import Optional
 
 
 mcp_pull_request = FastMCP(
-    name="mcp-github",
+    name="mcpPRs",
     instructions="""
         This server is to help you perform actions on github 
     """,

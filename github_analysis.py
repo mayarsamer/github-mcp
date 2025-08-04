@@ -8,7 +8,7 @@ from collections import defaultdict
 
 
 mcp_analysis= FastMCP(
-    name="mcp-github",
+    name="mcp_analysis",
     instructions="""
         This server is to help you perform actions on github 
     """,
