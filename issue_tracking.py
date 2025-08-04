@@ -7,7 +7,6 @@ from github.GithubObject import NotSet
 from typing import Optional
 
 
-#create the mcp server using the fastmcp library
 mcp_issue_tracking = FastMCP(
     name="mcp-github",
     instructions="""
@@ -21,6 +20,8 @@ if not token:
 
 g = Github(token)
 user = g.get_user()
+
+#---------------------------------------------------------------------------------------------------
 
 @mcp_issue_tracking.tool
 def create_issue(
@@ -56,6 +57,9 @@ def create_issue(
 
     return f"Issue created: {issue.title} (#{issue.number})"
 
+#---------------------------------------------------------------------------------------------------
+
+
 @mcp_issue_tracking.tool
 def get_issue_from_repo(repo_name: str, issue_number: int):
     """
@@ -88,6 +92,10 @@ def get_issue_from_repo(repo_name: str, issue_number: int):
     }
 
 
+#---------------------------------------------------------------------------------------------------
+
+
+
 @mcp_issue_tracking.tool
 def close_issue(repo_name: str, issue_number: int):
     """
@@ -110,6 +118,10 @@ def close_issue(repo_name: str, issue_number: int):
         "message": f"Issue #{issue.number} closed.",
         "title": issue.title
     }
+
+
+#---------------------------------------------------------------------------------------------------
+
 
 
 @mcp_issue_tracking.tool
@@ -136,4 +148,4 @@ def close_all_open_issues(repo_name: str):
     return {"closed_issues": closed_count}
 
 if __name__ == "__main__":
-    mcp_issue_tracking .run(transport="http")
+    mcp_issue_tracking.run(transport="http")

@@ -6,20 +6,18 @@ from github import Github, Repository, Issue, AuthenticatedUser
 from github.GithubObject import NotSet
 
 
-#create the mcp server using the fastmcp library
 mcp_management = FastMCP(
     name="mcp-github",
     instructions="""
-        This server is to help you perform actions on github through our LLM
+        This server is to help you perform actions on github 
     """,
 )
-#export the token in the terminal then call it back for security purposes 
+ 
 token = os.getenv("GITHUB_TOKEN")
 if not token:
     raise ValueError("GITHUB_TOKEN environment variable not set.")
 
 g = Github(token)
-
 user = g.get_user()
 
 
@@ -40,6 +38,10 @@ def create_github_repo(
         private=private
     )
     return f"✅ Repository '{repo.name}' created successfully at {repo.html_url}"
+
+
+#---------------------------------------------------------------------------------------------------
+
 
 #second tool is deleting a repo
 @mcp_management.tool
@@ -63,6 +65,9 @@ def delete_github_repo(repo_name: str) -> None:
     repo.delete()  # This calls the GitHub DELETE /repos/{owner}/{repo} API
     
     return f"✅ Repository '{repo_name}' deleted successfully."
+
+
+#---------------------------------------------------------------------------------------------------
 
 
 #third toold is listing all the current repos
