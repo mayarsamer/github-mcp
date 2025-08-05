@@ -1,4 +1,5 @@
-# 🧠 Multi-Server AI Tool Interface
+# ⚡ nulti-Server GitHub Toolkit with LLM Integration
+
 
 This project connects a Streamlit frontend with an LLM client and an MCP-server using FastAPI. It provides a seamless interface to interact with various GitHub management tools via natural language.
 
