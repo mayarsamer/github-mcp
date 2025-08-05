@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 st.set_page_config(page_title="GitHub AI Assistant", layout="centered")
 
-FASTAPI_URL = "http://LLM_client:8000"
+FASTAPI_URL = "http://localhost:8000"
 ASK_ENDPOINT = f"{FASTAPI_URL}/ask"
 
 TOOL_GUIDE = {
