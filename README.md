@@ -4,6 +4,15 @@ This project connects a Streamlit frontend with an LLM client and an MCP-server 
 
 ---
 
+## Features
+
+- **GitHub Repository Management:** Create, delete, and list repositories.
+- **Issue Tracking:** Create issues, get details, close individual or all issues.
+- **Pull Request Handling:** Create, list, get details, comment on, and close pull requests.
+- **Branch Management:** List branches and find the default branch.
+- **Natural Language Interface:** Communicate with the backend tools via a Streamlit UI using conversational prompts.
+- **Modular Architecture:** Separate servers for the LLM client, backend tools (MCP-servers), and frontend UI for easy maintenance and scaling.
+
 ##  Getting Started !
 
 ### 1. Clone the Repository
