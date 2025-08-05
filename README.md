@@ -21,13 +21,26 @@ This project connects a Streamlit frontend with an LLM client and an MCP-server 
 git clone https://github.com/mayarsamer/github-mcp.git
 cd github-mcp
 ```
+---
 
-### 2. Activate the Virtual Environment
-If you’re using a virtual environment (recommended), activate it:
+### 2. Install Dependencies with uv
+#### This project uses the uv package manager instead of pip. It will automatically create and manage a virtual environment for you.
+
+1. Install uv:
+```bash
+pip install uv
+```
+2. Sync all dependencies using the lockfile
 
 ```bash
-source venv/bin/activate
+uv sync --locked
 ```
+3. Activate the Virtual Environment
+
+```bash
+source .venv/bin/activate
+```
+---
 
 ### 3. Export Required Environment Variables
 Before starting the servers, export your API keys in your terminal session:
@@ -36,7 +49,7 @@ Before starting the servers, export your API keys in your terminal session:
 export GITHUB_TOKEN=your_github_token
 export GOOGLE_API_KEY=your_google_api_key
 ```
-
+---
 
 ### 4. Make the Startup Script Executable
 If not already done:
@@ -44,7 +57,7 @@ If not already done:
 ```bash
 sudo chmod +x start_servers.sh
 ```
-
+---
 
 ### 5. Start All Servers
 Now launch all the servers (FastAPI, LLM client, and Streamlit):
